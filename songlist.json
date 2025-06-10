@@ -1,0 +1,187 @@
+{
+    "path": "songs",
+    "debugMode": false,
+    "delayResult": 3000,
+    "cats": [
+        {
+            "name": "Gitadora",
+            "songs": [
+                {
+                    "name": "Libra",
+                    "src": "libra.mp3",
+                    "timestamp": 21.9
+                },
+                {
+                    "name": "Encore Conquest",
+                    "src": "encore.mp3",
+                    "timestamp": 101.1
+                },
+                {
+                    "name": "アイドル",
+                    "src": "idol.mp3",
+                    "timestamp": 45
+                },
+                {
+                    "name": "Cosmic Agenda",
+                    "src": "cosmic.mp3",
+                    "timestamp": 54.1
+                },
+                {
+                    "name": "Marigold",
+                    "src": "marigold.mp3",
+                    "timestamp": 13.1
+                }
+            ]
+        },
+        {
+            "name": "Anime",
+            "songs": [
+                {
+                    "name": "Lucky Star 「もってけ！セーラーふく」",
+                    "src": "luckystar.mp3",
+                    "timestamp": 23
+                },
+                {
+                    "name": "Death Parade 「Flyers」",
+                    "src": "flyers.mp3",
+                    "timestamp": 28.4
+                },
+                {
+                    "name": "Ya Boy Kongming 「Chitty Chitty Bang Bang」",
+                    "src": "kongming.mp3",
+                    "timestamp": 36
+                },
+                {
+                    "name": "Jojo's Bizarre Adventure 「I Want You」",
+                    "src": "jojo.mp3",
+                    "timestamp": 4.8
+                },
+                {
+                    "name": "Jujutsu Kaisen 「Where Our Blue Is」",
+                    "src": "jujutsu.mp3",
+                    "timestamp": 46.3
+                }
+            ]
+        },
+        {
+            "name": "Jingles",
+            "songs": [
+                {
+                    "name": "Wonder Core",
+                    "src": "wondercore.mp3",
+                    "timestamp": 5.5
+                },
+                {
+                    "name": "Gamecube Startup Theme",
+                    "src": "gamecube.mp3",
+                    "timestamp": 0
+                },
+                {
+                    "name": "Selecta Theme",
+                    "src": "selecta.mp3",
+                    "timestamp": 6
+                },
+                {
+                    "name": "Windows XP Startup Theme",
+                    "src": "windowsxp.mp3",
+                    "timestamp": 0
+                },
+                {
+                    "name": "Family Mart Chime",
+                    "src": "famima.mp3",
+                    "timestamp": 0
+                }
+            ]
+        },
+        {
+            "name": "K-Pop",
+            "songs": [
+                {
+                    "name": "[2NE1] Fire",
+                    "src": "2ne1.mp3",
+                    "timestamp": 82.1
+                },
+                {
+                    "name": "[Girl's Generation] Gee",
+                    "src": "gee.mp3",
+                    "timestamp": 56
+                },
+                {
+                    "name": "[Big Bang] Fantastic Baby",
+                    "src": "bigbang.mp3",
+                    "timestamp": 102
+                },
+                {
+                    "name": "[ILLIT] Magnetic",
+                    "src": "illit.mp3",
+                    "timestamp": 41.1
+                },
+                {
+                    "name": "[Wonder Girls] Nobody",
+                    "src": "nobody.mp3",
+                    "timestamp": 133.5
+                }
+            ]
+        },
+        {
+            "name": "Novelty",
+            "songs": [
+                {
+                    "name": "[Las Ketchup] Aserejé",
+                    "src": "ketchup.mp3",
+                    "timestamp": 33.5
+                },
+                {
+                    "name": "[Los Del Rio] Macarena (Bayside Boys Remix)",
+                    "src": "macarena.mp3",
+                    "timestamp": 0.2
+                },
+                {
+                    "name": "[Vhong Navarro] Pamela",
+                    "src": "pamela.mp3",
+                    "timestamp": 57.9
+                },
+                {
+                    "name": "[ROSÉ & Bruno Mars] APT.",
+                    "src": "apt.mp3",
+                    "timestamp": 81
+                },
+                {
+                    "name": "[Aishwarya Rai] Dayang Dayang",
+                    "src": "dayang.mp3",
+                    "timestamp": 69.7
+                }
+            ]
+        },
+        {
+            "name": "Video Games",
+            "songs": [
+                {
+                    "name": "[Pepsi Man] Pepsi Man Theme Song",
+                    "src": "pepsiman.mp3",
+                    "timestamp": 16.9
+                },
+                {
+                    "name": "Wii Shop Theme",
+                    "src": "wiishop.mp3",
+                    "timestamp": 21
+                },
+                {
+                    "name": "[Street Fighter II] Guile's Theme",
+                    "src": "guile.mp3",
+                    "timestamp": 0
+                },
+                {
+                    "name": "[Persona 3] When the Moon's Reaching Out Stars",
+                    "src": "persona3.mp3",
+                    "timestamp": 33.45
+                },
+                {
+                    "name": "[Various] Brain Power",
+                    "src": "brainpower.mp3",
+                    "timestamp": 2.9
+                }
+            ]
+        }
+    ]
+}

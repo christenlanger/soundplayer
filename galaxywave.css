@@ -1,0 +1,132 @@
+@font-face {
+  font-family: "Hiragino Kaku Gothic Pro";
+  src: url(galaxywave/hiragino.otf) format("opentype");
+}
+body {
+  background: url(galaxywave/background_p.jpg) no-repeat center;
+  background-size: cover;
+  font-family: "Hiragino Kaku Gothic Pro", Arial, Helvetica, sans-serif;
+}
+
+#app {
+  flex-direction: row-reverse;
+}
+
+.cat-menu {
+  padding-right: 0;
+  flex-basis: 30rem;
+  justify-content: safe center;
+}
+
+.cat-menu > button {
+  position: relative;
+  border: solid 2px #3d3d3d;
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  background-color: rgba(255, 255, 255, 0.6666666667);
+  font-family: "Hiragino Kaku Gothic Pro", Arial, Helvetica, sans-serif;
+  font-size: 2rem;
+  padding-right: 5rem;
+  cursor: pointer;
+  transform: translateX(3px);
+  transition: transform 0.1s, filter 0.1s;
+  transition-timing-function: linear;
+  filter: drop-shadow(0 0 0);
+}
+.cat-menu > button:hover {
+  background-color: #FFFFFF;
+  transform: translate(0px, -4px);
+  filter: drop-shadow(-5px 7px 10px rgba(0, 0, 0, 0.6666666667));
+}
+.cat-menu > button > .cat-count {
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #c05125;
+  color: #FFFFFF;
+  height: 100%;
+  width: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.song-name {
+  position: relative;
+  border: none;
+  border-radius: 10px;
+  background: url(galaxywave/menu_bg.png) no-repeat left;
+  background-size: cover;
+  padding: 2rem;
+  color: #FFF;
+}
+.song-name::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  left: 50px;
+  top: 20px;
+  background-image: url(galaxywave/menu_icon04.png);
+  width: 72px;
+  height: 70px;
+}
+
+.song-controls {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.2rem;
+  gap: 0.2rem;
+}
+.song-controls > button {
+  font-size: 0.6rem;
+  padding: 0.2rem;
+}
+
+#volume-slider {
+  width: auto;
+}
+
+.time-buttons > button {
+  border: solid 1px #3d3d3d;
+  border-radius: 10px;
+}
+
+.done-list-header {
+  border-bottom: solid 1px #3d3d3d;
+  color: #3d3d3d;
+  padding: 1rem 2rem;
+}
+
+.done-list {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  list-style: none;
+}
+.done-list > li {
+  flex-basis: 40%;
+  background: #FFFFFF;
+  color: #3d3d3d;
+  font-size: 0.8rem;
+  border: solid 1px #3d3d3d;
+  border-radius: 5px;
+  padding: 0.5rem;
+  flex-basis: 32%;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}/*# sourceMappingURL=galaxywave.css.map */

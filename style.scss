@@ -1,0 +1,94 @@
+* {
+    box-sizing: border-box;
+}
+
+$font-family: Arial, Helvetica, sans-serif;
+$font-size: 24px;
+
+html, body, #app {
+    height: 100%;
+    width: 100%;
+    min-width: 800px;
+    margin: 0;
+}
+
+body {
+    background: #000;
+    color: #AAAAAA;
+    font-family: $font-family;
+    font-size: $font-size;
+}
+
+.container {
+    overflow: auto;
+}
+
+button {
+    font-family: $font-family;
+    font-size: $font-size;
+    padding: 1rem 2rem;
+}
+
+#app {
+    display: flex;
+}
+
+.cat-menu {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    flex-basis: 20rem;
+    padding: 1rem;
+
+    > button {
+        display: block;
+        position: relative;
+    }
+
+    > button.debug-song {
+        font-size: smaller;
+        background-color: #CCCCCC;
+        padding: 0.5rem;
+
+        &::after {
+            content: 'DEBUG';
+            position: absolute;
+            background-color: #CC0000;
+            color: #FFFFFF;
+            font-size: 0.7rem;
+            right: 0;
+            top: 0;
+        }
+    }
+}
+
+.content-win {
+    flex-basis: 40rem;
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+.song-name {
+    padding: 1rem 2rem;
+    border: solid 1px #AAAAAA;
+    text-align: center;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+#volume-slider {
+    width: 100%;
+}
+
+.time-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+
+    > button {
+        flex-basis: 23%;
+    }
+}
+
