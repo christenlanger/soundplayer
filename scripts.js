@@ -17,7 +17,8 @@ createApp({
             isPlaying: false,
             curVolume: 50,
             debugEnabled: false,
-            delayResult: 0
+            delayResult: 0,
+            durations: [0.5, 0.75, 1.0, 2.0]
         };
     },
     created() {

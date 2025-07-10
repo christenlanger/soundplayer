@@ -20,7 +20,10 @@
             </div>
             <div class="content-win">
                 <div class="time-buttons">
-                    <button :disabled="noSongLoaded" @click="playSong(1)">1s</button> <button :disabled="noSongLoaded" @click="playSong(2)">2s</button> <button :disabled="noSongLoaded" @click="playSong(3)">3s</button> <button @click="revealSong()" :disabled="noSongLoaded">Reveal</button>
+                    <template v-for="duration in this.durations">
+                        <button :disabled="noSongLoaded" @click="playSong(duration)">{{ duration }}s</button>
+                    </template>
+                    <button @click="revealSong()" :disabled="noSongLoaded">Reveal</button>
                 </div>
                 <div class="song-name" v-if="isLoading">Loading...</div><div class="song-name" v-else="isLoading">{{ curSongName }}</div>
                 <div class="song-controls">
