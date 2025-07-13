@@ -1,10 +1,6 @@
-const { createApp, ref } = Vue;
-let ctx;
-let gainNode;
-let playSound;
+import { createAudioManager } from './audioManager.js';
 
-const songfile = "./songlist.json";
-const noSongText = "Hang tight!";
+const { createApp } = Vue;
 
 createApp({
     data() {
@@ -18,67 +14,50 @@ createApp({
             curVolume: 50,
             debugEnabled: false,
             delayResult: 0,
-            durations: [0.5, 0.75, 1.0, 2.0]
+            durations: [0.5, 0.75, 1.0, 2.0],
+            audio: createAudioManager(0.5),
+            currentSource: null
         };
     },
     created() {
-        // Get config
-        fetch(songfile)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(`HTTP error: ${res.status}`)
-                }
-                return res.json();
-            })
-            .then((data) => {
+        fetch("./songlist.json")
+            .then(res => res.ok ? res.json() : Promise.reject(`HTTP error: ${res.status}`))
+            .then(data => {
                 this.songData = data;
-                this.debugEnabled = typeof data.debugMode !== 'undefined' ? data.debugMode : false;
-                this.durations = typeof data.durations !== 'undefined' ? data.durations : [1.0, 2.0, 3.0];
-                this.delayResult = typeof data.delayResult !== 'undefined' ? data.delayResult : 0;
+                this.debugEnabled = data.debugMode ?? false;
+                this.delayResult = data.delayResult ?? 0;
             })
-            .catch((error) =>
-                console.error("Unable to fetch data:", error));
+            .catch(error => console.error("Unable to fetch data:", error));
     },
     watch: {
         curVolume(val) {
-            if (typeof gainNode !== 'undefined') {
-                gainNode.gain.value = val / 100;
-            }
+            this.audio.setVolume(val / 100);
         }
     },
     computed: {
         catList() {
-            return (typeof this.songData.cats !== 'undefined') ? this.songData.cats.map((obj) => {
-                return {
-                    name: obj.name,
-                    count: obj.songs.length
-                }
-            }) : [];
+            return this.songData.cats?.map(obj => ({
+                name: obj.name,
+                count: obj.songs.length
+            })) ?? [];
         },
         curSongName() {
-            if (typeof this.current.name === 'undefined') {
-                return noSongText;
-            }
-
-            return (this.isAsking) ? '[' + this.current.catname + '] ???' : this.current.name;
+            if (!this.current.name) return "Hang tight!";
+            return this.isAsking ? `[${this.current.catname}] ???` : this.current.name;
         },
         noSongLoaded() {
-            return this.isLoading || typeof this.current.catname === 'undefined';
-        },
-        revealedSongs() {
-            return this.isAsking ? this.finished.filter((song) => song.revealed) : this.finished
+            return this.isLoading || !this.current.catname;
         }
     },
     methods: {
-        getSong(i, j) {
+        async getSong(i, j) {
             if (!this.isAsking) {
                 if (this.isPlaying) {
-                    ctx.close().then(() => this.loadSong(i, j));
+                    this.audio.stop();
+                    this.audio.closeContext();
                     this.isPlaying = false;
                 }
-                else {
-                    this.loadSong(i, j);
-                }
+                this.loadSong(i, j);
             }
         },
         revealSong() {
@@ -86,65 +65,49 @@ createApp({
                 this.playSong();
                 setTimeout(() => {
                     this.isAsking = false;
-
                     this.finished.push(this.current);
                 }, this.delayResult);
             }
         },
-        playSong(time, beginning) {
-            if (!this.isPlaying) {
-                beginning = typeof beginning === 'undefined' ? false : beginning;
-                gainNode = ctx.createGain();
-                gainNode.connect(ctx.destination);
-                gainNode.gain.value = this.curVolume / 100;
+        playSong(time, beginning = false) {
+            if (this.isPlaying || !this.current.audio) return;
 
-                playSound = ctx.createBufferSource();
-                playSound.buffer = this.current.audio;
-                playSound.connect(gainNode);
-                playSound.onended = () => {
+            this.currentSource = this.audio.play(this.current.audio, {
+                volume: this.curVolume / 100,
+                timestamp: beginning ? 0 : this.current.timestamp,
+                duration: time
+            });
+
+            if (this.currentSource) {
+                this.currentSource.onended = () => {
                     this.isPlaying = false;
                 };
-                playSound.start(ctx.currentTime, (beginning) ? 0 : this.current.timestamp, time);
                 this.isPlaying = true;
             }
         },
-        loadSong(i, j) {
-            let songs = this.songData.cats[i].songs;
+        async loadSong(i, j) {
+            const songs = this.songData.cats[i].songs;
+            if (!songs.length || this.isAsking) return;
 
-            if (songs.length > 0 && !this.isAsking) {
-                this.isAsking = true;
+            this.isAsking = true;
+            this.current = j === undefined ? songs.splice(Math.floor(Math.random() * songs.length), 1)[0] : songs[j];
+            this.current.catname = this.songData.cats[i].name;
 
-                if (typeof j === 'undefined') {
-                    this.current = songs.splice(Math.floor(Math.random() * songs.length), 1)[0];
-                }
-                else {
-                    this.current = songs[j];
-                }
-                this.current.catname = this.songData.cats[i].name;
-
-                if (!ctx || ctx.state === 'closed') {
-                    ctx = new AudioContext();
-                }
-                this.isLoading = true;
-                fetch(this.songData.path + "/" + this.current.src)
-                    .then(data => data.arrayBuffer())
-                    .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
-                    .then(decodedAudio => {
-                        this.current.audio = decodedAudio;
-                        this.isLoading = false;
-                    })
-                    .catch((error) =>
-                        console.error("Unable to fetch data:", error));
+            this.isLoading = true;
+            try {
+                this.current.audio = await this.audio.decodeAudio(`${this.songData.path}/${this.current.src}`);
+                this.isLoading = false;
+            } catch (error) {
+                console.error("Unable to load audio:", error);
+                this.isLoading = false;
             }
         },
         toggleSong() {
-            if (typeof playSound !== 'undefined') {
-                if (this.isPlaying) {
-                    playSound.stop();
-                }
-                else {
-                    this.playSong(undefined, true);
-                }
+            if (this.isPlaying) {
+                this.audio.stop();
+                this.isPlaying = false;
+            } else {
+                this.playSong(undefined, true);
             }
         }
     }
