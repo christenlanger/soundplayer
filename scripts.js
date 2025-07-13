@@ -1,7 +1,7 @@
 const { createApp, ref } = Vue;
-var ctx;
-var gainNode;
-var playSound;
+let ctx;
+let gainNode;
+let playSound;
 
 const songfile = "./songlist.json";
 const noSongText = "Hang tight!";
@@ -33,6 +33,7 @@ createApp({
             .then((data) => {
                 this.songData = data;
                 this.debugEnabled = typeof data.debugMode !== 'undefined' ? data.debugMode : false;
+                this.durations = typeof data.durations !== 'undefined' ? data.durations : [1.0, 2.0, 3.0];
                 this.delayResult = typeof data.delayResult !== 'undefined' ? data.delayResult : 0;
             })
             .catch((error) =>
@@ -63,6 +64,9 @@ createApp({
         },
         noSongLoaded() {
             return this.isLoading || typeof this.current.catname === 'undefined';
+        },
+        revealedSongs() {
+            return this.isAsking ? this.finished.filter((song) => song.revealed) : this.finished
         }
     },
     methods: {
@@ -118,7 +122,9 @@ createApp({
                 }
                 this.current.catname = this.songData.cats[i].name;
 
-                ctx = new AudioContext();
+                if (!ctx || ctx.state === 'closed') {
+                    ctx = new AudioContext();
+                }
                 this.isLoading = true;
                 fetch(this.songData.path + "/" + this.current.src)
                     .then(data => data.arrayBuffer())
