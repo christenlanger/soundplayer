@@ -15,11 +15,12 @@ createApp({
             debugEnabled: false,
             delayResult: 0,
             durations: [0.5, 0.75, 1.0, 2.0],
-            audio: createAudioManager(0.5),
-            currentSource: null
         };
     },
     created() {
+        this.audio = createAudioManager(0.5);
+        this.currentSource = null;
+
         fetch("./songlist.json")
             .then(res => res.ok ? res.json() : Promise.reject(`HTTP error: ${res.status}`))
             .then(data => {
@@ -42,15 +43,18 @@ createApp({
             })) ?? [];
         },
         curSongName() {
-            if (!this.current.name) return "Hang tight!";
-            return this.isAsking ? `[${this.current.catname}] ???` : this.current.name;
+            const { current, isAsking } = this;
+
+            return current?.name
+                ? ( isAsking ? `[${current.catname}] ???` : current.name )
+                : "Hang tight!";
         },
         noSongLoaded() {
             return this.isLoading || !this.current.catname;
         }
     },
     methods: {
-        async getSong(i, j) {
+        getSong(i, j) {
             if (!this.isAsking) {
                 if (this.isPlaying) {
                     this.audio.stop();
@@ -94,6 +98,7 @@ createApp({
             this.current.catname = this.songData.cats[i].name;
 
             this.isLoading = true;
+            
             try {
                 this.current.audio = await this.audio.decodeAudio(`${this.songData.path}/${this.current.src}`);
                 this.isLoading = false;

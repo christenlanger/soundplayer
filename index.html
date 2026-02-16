@@ -14,26 +14,25 @@
                 <template v-for="(cat, i) in catList">
                     <button @click="getSong(i)">{{ cat.name }} <span class="cat-count">{{ cat.count }}</span></button>
                     <template v-if="debugEnabled">
-                        <button class="debug-song" v-for="(song, j) in this.songData.cats[i].songs" @click="getSong(i, j)">{{ song.name }}</button>
+                        <button class="debug-song" v-for="(song, j) in songData.cats[i].songs" @click="getSong(i, j)">{{ song.name }}</button>
                     </template>
                 </template>
             </div>
             <div class="content-win">
                 <div class="time-buttons">
-                    <template v-for="duration in this.durations">
+                    <template v-for="duration in durations">
                         <button :disabled="noSongLoaded" @click="playSong(duration)">{{ duration }}s</button>
                     </template>
                     <button @click="revealSong()" :disabled="noSongLoaded">Reveal</button>
                 </div>
-                <div class="song-name" v-if="isLoading">Loading...</div><div class="song-name" v-else="isLoading">{{ curSongName }}</div>
+                <div class="song-name" v-if="isLoading">Loading...</div><div class="song-name" v-else>{{ curSongName }}</div>
                 <div class="song-controls">
-                    <input type="range" id="volume-slider" v-model="curVolume" /> <button @click="toggleSong()">{{ isPlaying ? "Stop" : "Play" }}</button>
+                    <input type="range" id="volume-slider" v-model.number="curVolume" /> <button @click="toggleSong()">{{ isPlaying ? "Stop" : "Play" }}</button>
                 </div>
                 <h3 class="done-list-header">Song list</h3>
                 <ul class="done-list">
                     <li v-for="song in finished">
                         <span>[{{ song.catname }}] {{ song.name }}</span>
-                        </TransitionGroup>
                     </li>
                 </ul>
             </div>
